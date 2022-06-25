@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        'use strict';
+
+        function Post(author, text, date) {
+            this.author = author;
+            this.text = text;
+            this.date = date;
+        }
+
+        Post.prototype.edit = function(text) {
+            this.text = text;
+        };
+
+        let p1 = new Post("Peter", "lorem", new Date);
+        console.log(p1);
+        p1.edit("akjdhckja");
+        console.log(p1);
+
+        function AttachedPost(author, text, date) {
+            //потерял this, и начались проблемы
+            Post.call(this, author, text, date);
+            this.highlighted = false;
+        }
+
+        AttachedPost.prototype = Object.create(Post.prototype);
+        AttachedPost.prototype.makeTextHighlighted = function() {
+            this.highlighted = true;
+        };
+
+        let p2 = new AttachedPost("Tony", "lorem2", new Date);
+        console.log(p2);
+        p2.edit("adbka");
+        console.log(p2);
+        p2.makeTextHighlighted();
+        console.log(p2);
+    </script>
+</body>
+
+</html>
